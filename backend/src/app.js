@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
+import interviewRoutes from "./routes/interviewRoutes.js";
 const app = express();
 
 // Middlewares
@@ -14,5 +15,8 @@ app.get("/", (req, res) => {
         message: "AI Mock Interview API is running 🚀"
     });
 });
-
+app.use(
+    "/api/interview",
+    interviewRoutes
+);
 export default app;
