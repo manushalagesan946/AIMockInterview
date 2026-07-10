@@ -1,8 +1,8 @@
 import {
-    createInterview
-} from "../services/interviewService.js";
-import {
-    submitInterviewAnswer
+    createInterview,
+    submitInterviewAnswer,
+    getInterviewHistory,
+    getInterviewDetails
 } from "../services/interviewService.js";
 export async function startInterview(req, res){
 
@@ -50,6 +50,65 @@ export async function submitAnswer(req, res) {
             success:false,
 
             message:error.message
+
+        });
+
+    }
+
+}
+export async function interviewHistory(req, res) {
+
+    try {
+
+        const history = await getInterviewHistory(
+            req.user.userId
+        );
+
+        return res.status(200).json({
+            success: true,
+            history
+        });
+
+    } catch (error) {
+
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+}
+export async function interviewDetails(req, res) {
+
+    try {
+
+        const result =
+            await getInterviewDetails(
+
+                req.params.id,
+
+                req.user.userId
+
+            );
+
+        return res.status(200).json({
+
+            success: true,
+
+            data: result
+
+        });
+
+    }
+
+    catch (error) {
+
+        return res.status(400).json({
+
+            success: false,
+
+            message: error.message
 
         });
 

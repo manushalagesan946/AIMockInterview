@@ -2,9 +2,7 @@ import express from "express";
 
 import { authenticate } from "../middleware/authMiddleware.js";
 
-import { startInterview } from "../controllers/interviewController.js";
-
-import { submitAnswer } from "../controllers/interviewController.js";
+import { startInterview,submitAnswer,interviewHistory,interviewDetails } from "../controllers/interviewController.js";
 const router = express.Router();
 
 router.post(
@@ -17,5 +15,20 @@ router.post(
     "/answer",
     authenticate,
     submitAnswer
+);
+
+router.get(
+    "/history",
+    authenticate,
+    interviewHistory
+);
+router.get(
+
+    "/:id",
+
+    authenticate,
+
+    interviewDetails
+
 );
 export default router;

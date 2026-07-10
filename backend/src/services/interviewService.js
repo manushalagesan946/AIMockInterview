@@ -128,6 +128,8 @@ export async function submitInterviewAnswer(data){
 
     questionNumber: interview.currentQuestion,
 
+    question: currentQuestion.question,
+
     answer,
 
     score: feedback.score,
@@ -269,4 +271,69 @@ export async function submitInterviewAnswer(data){
     feedback
 
 };
+}
+export async function getInterviewHistory(userId) {
+
+    const db = getDB();
+
+    const interviews = db.collection("interviews");
+
+    const history = await interviews.find(
+        {
+            userId
+        },
+        {
+            projection: {
+                role: 1,
+                difficulty: 1,
+                interviewType: 1,
+                overallScore: 1,
+                status: 1,
+                createdAt: 1
+            }
+        }
+    )
+    .sort({ createdAt: -1 })
+    .toArray();
+
+    return history;
+
+}
+export async function getInterviewDetails(interviewId, userId) {
+
+    const db = getDB();
+
+    const interviews = db.collection("interviews");
+    const responses = db.collection("responses");
+
+    const interview = await interviews.findOne({
+
+        _id: new ObjectId(interviewId),
+
+        userId
+
+    });
+
+    if (!interview) {
+        throw new Error("Interview not found");
+    }
+
+    const interviewResponses = await responses.find({
+
+        interviewId: new ObjectId(interviewId)
+
+    })
+    .sort({
+        questionNumber: 1
+    })
+    .toArray();
+
+    return {
+
+        interview,
+
+        responses: interviewResponses
+
+    };
+
 }
