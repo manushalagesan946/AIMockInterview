@@ -2,7 +2,7 @@ import express from "express";
 
 import { authenticate } from "../middleware/authMiddleware.js";
 
-import { startInterview,submitAnswer,interviewHistory,interviewDetails } from "../controllers/interviewController.js";
+import { startInterview,submitAnswer,interviewHistory,interviewDetails,profileStatistics,recentInterview } from "../controllers/interviewController.js";
 const router = express.Router();
 
 router.post(
@@ -23,6 +23,17 @@ router.get(
     interviewHistory
 );
 router.get(
+    "/statistics",
+    authenticate,
+    profileStatistics
+);
+
+router.get(
+    "/recent",
+    authenticate,
+    recentInterview
+);
+router.get(
 
     "/:id",
 
@@ -31,4 +42,5 @@ router.get(
     interviewDetails
 
 );
+
 export default router;

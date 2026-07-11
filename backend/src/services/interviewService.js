@@ -337,3 +337,86 @@ export async function getInterviewDetails(interviewId, userId) {
     };
 
 }
+export async function getProfileStatistics(userId){
+
+    const db = getDB();
+
+    const interviews = db.collection("interviews");
+
+    const history = await interviews.find({
+
+        userId
+
+    }).toArray();
+
+    const totalInterviews = history.length;
+
+    const completedInterviews =
+        history.filter(
+
+            interview => interview.status === "Completed"
+
+        ).length;
+
+    const scoredInterviews =
+        history.filter(
+
+            interview => interview.overallScore !== null
+
+        );
+
+    const averageScore =
+        scoredInterviews.length === 0
+            ? 0
+            : Number(
+
+                (
+
+                    scoredInterviews.reduce(
+
+                        (sum, interview) =>
+
+                            sum + interview.overallScore,
+
+                        0
+
+                    ) /
+
+                    scoredInterviews.length
+
+                ).toFixed(1)
+
+            );
+
+    return {
+
+        totalInterviews,
+
+        completedInterviews,
+
+        averageScore
+
+    };
+
+}
+export async function getRecentInterview(userId) {
+
+    const db = getDB();
+
+    const interviews = db.collection("interviews");
+
+    const recent = await interviews.findOne(
+        {
+            userId,
+            status: "Completed"
+        },
+        {
+            sort: {
+                createdAt: -1
+            }
+        }
+    );
+
+    return recent;
+
+}

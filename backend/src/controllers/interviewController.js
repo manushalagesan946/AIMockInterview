@@ -2,7 +2,9 @@ import {
     createInterview,
     submitInterviewAnswer,
     getInterviewHistory,
-    getInterviewDetails
+    getInterviewDetails,
+    getProfileStatistics,
+    getRecentInterview
 } from "../services/interviewService.js";
 export async function startInterview(req, res){
 
@@ -105,6 +107,68 @@ export async function interviewDetails(req, res) {
     catch (error) {
 
         return res.status(400).json({
+
+            success: false,
+
+            message: error.message
+
+        });
+
+    }
+
+}
+export async function profileStatistics(req,res){
+
+    try{
+
+        const statistics =
+            await getProfileStatistics(
+
+                req.user.userId
+
+            );
+
+        return res.json({
+
+            success:true,
+
+            statistics
+
+        });
+
+    }
+
+    catch(error){
+
+        return res.status(500).json({
+
+            success:false,
+
+            message:error.message
+
+        });
+
+    }
+
+}
+export async function recentInterview(req, res) {
+
+    try {
+
+        const interview = await getRecentInterview(
+            req.user.userId
+        );
+
+        return res.json({
+            success: true,
+            interview
+        });
+
+    }
+
+    catch (error) {
+
+        return res.status(500).json({
 
             success: false,
 
