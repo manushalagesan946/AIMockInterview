@@ -1,15 +1,18 @@
 function Input({
+
     label,
-    type = "text",
-    placeholder,
+
     register,
+
     name,
-    required = true
+
+    ...props
+
 }) {
 
     return (
 
-        <div className="mb-4">
+        <div className="mb-5">
 
             <label className="block mb-2 font-medium">
 
@@ -19,13 +22,22 @@ function Input({
 
             <input
 
-                type={type}
+                {...register(name)}
 
-                placeholder={placeholder}
+                {...props}
 
-                {...register(name, { required })}
-
-                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="
+                    w-full
+                    rounded-xl
+                    border
+                    border-border
+                    px-4
+                    py-3
+                    focus:border-primary
+                    focus:ring-4
+                    focus:ring-blue-100
+                    transition
+                "
 
             />
 

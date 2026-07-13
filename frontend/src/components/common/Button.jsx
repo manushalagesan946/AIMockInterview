@@ -1,20 +1,50 @@
+import { motion } from "framer-motion";
+
 function Button({
+
     children,
-    type = "button",
-    onClick,
-    disabled = false,
-    className = ""
+
+    className = "",
+
+    ...props
+
 }) {
+
     return (
-        <button
-            type={type}
-            onClick={onClick}
-            disabled={disabled}
-            className={`w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition disabled:bg-gray-400 ${className}`}
+
+        <motion.button
+
+            whileHover={{
+                scale: 1.02
+            }}
+
+            whileTap={{
+                scale: 0.98
+            }}
+
+            className={`
+                w-full
+                bg-primary
+                text-white
+                py-3
+                rounded-xl
+                font-semibold
+                shadow-card
+                hover:opacity-90
+                disabled:opacity-50
+                ${className}
+            `}
+
+            {...props}
+
         >
+
             {children}
-        </button>
+
+        </motion.button>
+
     );
+
 }
 
 export default Button;
